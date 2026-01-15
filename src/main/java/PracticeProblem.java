@@ -1,27 +1,39 @@
+import java.util.ArrayDeque;
+
 public class PracticeProblem {
+    public static int searchMazeMoves(String[][] maze) {
+        int rows = maze.length;
+        int cols = maze[0].length;
+        int startR = rows - 1;
+        int startC = 0;
 
-	public static void main(String args[]) {
+        boolean[][] visited = new boolean[rows][cols];
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[]{startR, startC, 0});
+        visited[startR][startC] = true;
 
-	}
+        int[] dr = {-1, 1, 0, 0};
+        int[] dc = {0, 0, -1, 1};
 
-	public static void q1() {
-		//Write question 1 code here
-	}
-
-	public static void q2() {
-		//Write question 2 code here
-	}
-
-	public static void q3() {
-		//Write question 3 code here
-	}
-
-	public static void q4() {
-		//Write question 4 code here
-	}
-
-	public static void q5() {
-		//Write question 5 code here
-	}
-
+        while (!queue.isEmpty()) {
+            int[] cur = queue.removeFirst();
+            int r = cur[0];
+            int c = cur[1];
+            int dist = cur[2];
+            if (maze[r][c].equals("F")) {
+                return dist;
+            }
+            for (int i = 0; i < 4; i++) {
+                int nr = r + dr[i];
+                int nc = c + dc[i];
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                    if (!visited[nr][nc] && !maze[nr][nc].equals("*")) {
+                        visited[nr][nc] = true;
+                        queue.add(new int[]{nr, nc, dist + 1});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
 }
